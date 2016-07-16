@@ -1,0 +1,20 @@
+from geomagio.algorithm import XYZAlgorithm
+from geomagio.edge import EdgeFactory
+from obspy.core import UTCDateTime
+
+# read data from the USGS EDGE server
+factory = EdgeFactory(host='cwbpub.cr.usgs.gov', port=2060)
+hezf = factory.get_timeseries(
+        observatory='BOU',
+        interval='minute',
+        type='variation',
+        channels=('H', 'E', 'Z', 'F'),
+        starttime=UTCDateTime('2015-11-01T00:00:00Z'),
+        endtime=UTCDateTime('2015-11-01T23:59:59Z'))
+
+# convert from HEZF channels to XYZF channels
+algorithm = XYZAlgorithm(informat='obs', outformat='geo')
+xyzf = algorithm.process(hezf)
+
+# open interactive matplotlib plot
+xyzf.plot()
