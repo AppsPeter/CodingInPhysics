@@ -10,7 +10,7 @@ USER main
 
 RUN find $HOME/notebooks -name '*.ipynb' -exec jupyter trust {} \;
 
-
+RUN pip install git+https://github.com/usgs/geomag-algorithms.git
 
 
 USER main
